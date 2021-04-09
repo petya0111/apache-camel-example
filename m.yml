@@ -1,0 +1,12 @@
+modules:
+  p: parent
+  a: app
+
+commands:
+  - clean
+  - package
+  - test-compile
+  - jetty:run
+  - install
+  - deploy
+
