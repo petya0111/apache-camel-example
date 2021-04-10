@@ -18,11 +18,12 @@ public class ConvertorRouteTest {
     }
     @Test
     public void convert() throws Exception {
+//      before run  copy  /TEST/.camel/input.csv /TEST/input.csv
         CamelContext context = new DefaultCamelContext();
         ConvertorRoute route = new ConvertorRoute();
         route.addRoutesToCamelContext(context);
         context.start();
-        Thread.sleep(20000);
+        Thread.sleep(2000);
         context.stop();
 
     }

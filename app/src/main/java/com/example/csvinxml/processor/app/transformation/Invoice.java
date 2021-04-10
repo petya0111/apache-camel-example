@@ -1,27 +1,33 @@
 package com.example.csvinxml.processor.app.transformation;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-//@XmlType( propOrder = { "buyerName", "imageName", "invoiceImage", "invoiceDueDate", "invoiceNumber", "invoiceAmount", "invoiceCurrency", "invoiceStatus","supplier" })
+@XmlType( propOrder = { "buyerName", "imageName", "invoiceImage", "invoiceDueDate", "invoiceNumber", "invoiceAmount", "invoiceCurrency", "invoiceStatus","supplier" })
 @XmlRootElement(name = "Invoice")
-@CsvRecord(separator = ",", skipFirstLine = true)
+@CsvRecord(separator = ",",skipFirstLine = true) //skipFirstLine
+@XStreamAlias("InvoiceRoot")
 public class Invoice {
 
 
 	@XmlAttribute(name = "buyer", required = true)
 	@DataField(pos = 1)
+	@XStreamAsAttribute
+	@XStreamAlias("buyerName:buyer_name")
 	private String buyerName;
 
 	@XmlAttribute(name = "image_name", required = true)
 	@DataField(pos = 2)
+	@XStreamImplicit(itemFieldName = "myField")
 	private String imageName;
 
 	@XmlAttribute(name = "invoice_image", required = true)
@@ -32,7 +38,7 @@ public class Invoice {
 	@XmlAttribute(name = "invoice_due_date", required = true)
 //	@DataField(pos = 4)
 	@DataField(pos = 4, pattern = "yyyy-MM-dd")
-	private Date invoiceDueDate;
+	private String invoiceDueDate;
 
 	@XmlAttribute(name = "invoice_number", required = true)
 	@DataField(pos = 5)
@@ -40,7 +46,7 @@ public class Invoice {
 
 	@XmlAttribute(name = "invoice_amount", required = true)
 	@DataField(pos = 6)
-	private double invoiceAmount;
+	private String invoiceAmount;
 
 	@XmlAttribute(name = "invoice_currency", required = true)
 	@DataField(pos = 7)
@@ -78,11 +84,11 @@ public class Invoice {
 		this.invoiceImage = invoiceImage;
 	}
 
-	public Date getInvoiceDueDate() {
+	public String getInvoiceDueDate() {
 		return invoiceDueDate;
 	}
 
-	public void setInvoiceDueDate(Date invoiceDueDate) {
+	public void setInvoiceDueDate(String invoiceDueDate) {
 		this.invoiceDueDate = invoiceDueDate;
 	}
 
@@ -94,11 +100,11 @@ public class Invoice {
 		this.invoiceNumber = invoiceNumber;
 	}
 
-	public double getInvoiceAmount() {
+	public String getInvoiceAmount() {
 		return invoiceAmount;
 	}
 
-	public void setInvoiceAmount(double invoiceAmount) {
+	public void setInvoiceAmount(String invoiceAmount) {
 		this.invoiceAmount = invoiceAmount;
 	}
 

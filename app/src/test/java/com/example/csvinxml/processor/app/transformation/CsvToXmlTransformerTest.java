@@ -1,16 +1,19 @@
-package com.example.csvinxml.processor.app.transformation.xstream;
+package com.example.csvinxml.processor.app.transformation;
 
-import com.example.csvinxml.processor.app.transformation.Person;
+import com.example.csvinxml.processor.app.transformation.xstream.CsvToXmlTransformer;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.NoTypePermission;
+import com.thoughtworks.xstream.security.NullPermission;
+import com.thoughtworks.xstream.security.PrimitiveTypePermission;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.zip.GZIPOutputStream;
 import junit.framework.Assert;
-import com.example.csvinxml.processor.app.transformation.Invoice;
 import org.junit.Before;
 import org.junit.Test;
 import org.apache.commons.codec.binary.Base64;
@@ -32,6 +35,17 @@ public class CsvToXmlTransformerTest {
     public void setup(){
         transformer = new CsvToXmlTransformer();
         xstream = new XStream();
+        // clear out existing permissions and set own ones
+        xstream.addPermission(NoTypePermission.NONE);
+// allow some basics
+        xstream.addPermission(NullPermission.NULL);
+        xstream.addPermission(PrimitiveTypePermission.PRIMITIVES);
+        xstream.allowTypeHierarchy(Collection.class);
+// allow any type from the same package
+        xstream.allowTypesByWildcard(new String[] {
+                "com.example.csvinxml.**"
+        });
+//        https://stackoverflow.com/questions/44698296/security-framework-of-xstream-not-initialized-xstream-is-probably-vulnerable
         transformer.setXstream(xstream);
     }
 
@@ -59,9 +73,9 @@ public class CsvToXmlTransformerTest {
         Assert.assertEquals(invoice.getBuyerName(), "South African Gold Mines Corp");
         Assert.assertEquals(invoice.getImageName(), "scanned_invoice_1.png");
         Assert.assertEquals(invoice.getInvoiceImage(), invoiceImg);
-        Assert.assertEquals(invoice.getInvoiceDueDate(), new SimpleDateFormat("yyyy-MM-dd").parse("2020-09-01"));
+        Assert.assertEquals(invoice.getInvoiceDueDate(), "2020-09-01");
         Assert.assertEquals(invoice.getInvoiceNumber(), "AA16789-1");
-        Assert.assertEquals(invoice.getInvoiceAmount(), Double.parseDouble("22000.89"));
+        Assert.assertEquals(invoice.getInvoiceAmount(),"22000.89");
         Assert.assertEquals(invoice.getInvoiceCurrency(), "USD");
         Assert.assertEquals(invoice.getInvoiceStatus(), "NEW");
         Assert.assertEquals(invoice.getSupplier(), "Goldie & Sons\nSouth African Gold Mines Corp");

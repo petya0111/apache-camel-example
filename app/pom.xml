@@ -152,23 +152,20 @@
             <artifactId>jaxb-api-osgi</artifactId>
             <version>2.2.7</version>
         </dependency>
-
         <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-compiler</artifactId>
-            <version>7.6.0.Final</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.thoughtworks.xstream</groupId>
-                    <artifactId>xstream</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-xstream</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
             <version>1.4.10</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>2.11.1</version>
         </dependency>
     </dependencies>
 

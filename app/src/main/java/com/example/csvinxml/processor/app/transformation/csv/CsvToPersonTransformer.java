@@ -30,11 +30,10 @@ public class CsvToPersonTransformer {
             invoice.setImageName(csvRow.get(1));
             String invoiceImage = csvRow.get(2);
             invoice.setInvoiceImage(invoiceImage);
-            Date date=new SimpleDateFormat("yyyy-MM-dd").parse(csvRow.get(3));
-            invoice.setInvoiceDueDate(date);
+            invoice.setInvoiceDueDate(csvRow.get(3));
 
             invoice.setInvoiceNumber(csvRow.get(4));
-            invoice.setInvoiceAmount(Double.parseDouble(csvRow.get(5)));
+            invoice.setInvoiceAmount(csvRow.get(5));
             invoice.setInvoiceCurrency(csvRow.get(6));
             invoice.setInvoiceStatus(csvRow.get(7));
             invoice.setSupplier(csvRow.get(8));
