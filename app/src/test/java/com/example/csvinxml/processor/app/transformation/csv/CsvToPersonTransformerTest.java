@@ -1,6 +1,8 @@
 package com.example.csvinxml.processor.app.transformation.csv;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import junit.framework.Assert;
 import com.example.csvinxml.processor.app.transformation.Invoice;
 import com.example.csvinxml.processor.app.transformation.Person;
@@ -35,7 +37,7 @@ public class CsvToPersonTransformerTest {
         assertEquals(person.getFirstName(), "john");
     }
     @Test
-    public void convertCsvToPojo() throws IOException {
+    public void convertCsvToPojo() throws IOException, ParseException {
         byte[] bytes = new ClassPathResource("files/img.txt").getInputStream().readAllBytes();
         String invoiceImg = compressByteArrayEncodeToString(bytes);
         List<String> csvRow = Arrays.asList("South African Gold Mines Corp", "scanned_invoice_1.png", invoiceImg,"2020-09-01",
@@ -49,7 +51,7 @@ public class CsvToPersonTransformerTest {
         Assert.assertEquals(invoice.getBuyerName(), "South African Gold Mines Corp");
         Assert.assertEquals(invoice.getImageName(), "scanned_invoice_1.png");
         Assert.assertEquals(invoice.getInvoiceImage(), invoiceImg);
-        Assert.assertEquals(invoice.getInvoiceDueDate(), "2020-09-01");
+        Assert.assertEquals(invoice.getInvoiceDueDate(), new SimpleDateFormat("yyyy-MM-dd").parse("2020-09-01"));
         Assert.assertEquals(invoice.getInvoiceNumber(), "AA16789-1");
         Assert.assertEquals(invoice.getInvoiceAmount(), Double.parseDouble("22000.89"));
         Assert.assertEquals(invoice.getInvoiceCurrency(), "USD");

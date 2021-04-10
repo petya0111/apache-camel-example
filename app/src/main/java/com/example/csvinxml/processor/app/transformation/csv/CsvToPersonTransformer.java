@@ -2,6 +2,9 @@ package com.example.csvinxml.processor.app.transformation.csv;
 
 import com.example.csvinxml.processor.app.transformation.Person;
 import com.example.csvinxml.processor.app.transformation.Invoice;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -19,7 +22,7 @@ public class CsvToPersonTransformer {
         }
         return results;
     }
-    public List<Invoice> convertInvoice(List<List<String>> csvRows){
+    public List<Invoice> convertInvoice(List<List<String>> csvRows) throws ParseException {
         List<Invoice> results = new ArrayList<Invoice>();
         for (List<String> csvRow : csvRows) {
             Invoice invoice = new Invoice();
@@ -27,7 +30,8 @@ public class CsvToPersonTransformer {
             invoice.setImageName(csvRow.get(1));
             String invoiceImage = csvRow.get(2);
             invoice.setInvoiceImage(invoiceImage);
-            invoice.setInvoiceDueDate(csvRow.get(3));
+            Date date=new SimpleDateFormat("yyyy-MM-dd").parse(csvRow.get(3));
+            invoice.setInvoiceDueDate(date);
 
             invoice.setInvoiceNumber(csvRow.get(4));
             invoice.setInvoiceAmount(Double.parseDouble(csvRow.get(5)));

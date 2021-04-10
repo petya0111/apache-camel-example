@@ -5,6 +5,9 @@ import com.example.csvinxml.processor.app.transformation.Person;
 import com.thoughtworks.xstream.XStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.zip.GZIPOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,7 +30,7 @@ public class CsvToXmlTransformer {
         }
         return resultingXml;
     }
-    public List<String> convertInvoice(List<List<String>> csvRows){
+    public List<String> convertInvoice(List<List<String>> csvRows) throws ParseException {
         List<String> resultingXml = new ArrayList<>();
         for (List<String> csvRow : csvRows) {
             Invoice invoice = new Invoice();
@@ -35,7 +38,8 @@ public class CsvToXmlTransformer {
             invoice.setImageName(csvRow.get(1));
             String invoiceImage = csvRow.get(2);
             invoice.setInvoiceImage(invoiceImage);
-            invoice.setInvoiceDueDate(csvRow.get(3));
+            Date date=new SimpleDateFormat("yyyy-MM-dd").parse(csvRow.get(3));
+            invoice.setInvoiceDueDate(date);
 
             invoice.setInvoiceNumber(csvRow.get(4));
             invoice.setInvoiceAmount(Double.parseDouble(csvRow.get(5)));

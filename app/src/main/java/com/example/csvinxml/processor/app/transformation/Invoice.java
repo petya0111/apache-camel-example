@@ -1,6 +1,7 @@
 package com.example.csvinxml.processor.app.transformation;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -29,9 +30,9 @@ public class Invoice {
 	private String invoiceImage;
 
 	@XmlAttribute(name = "invoice_due_date", required = true)
-	@DataField(pos = 4)
-//	@DataField(pos = 4, delimiter = "\t", pattern = "yyyy-MM-dd hh:mm:ss")
-	private String invoiceDueDate;
+//	@DataField(pos = 4)
+	@DataField(pos = 4, pattern = "yyyy-MM-dd")
+	private Date invoiceDueDate;
 
 	@XmlAttribute(name = "invoice_number", required = true)
 	@DataField(pos = 5)
@@ -77,11 +78,11 @@ public class Invoice {
 		this.invoiceImage = invoiceImage;
 	}
 
-	public String getInvoiceDueDate() {
+	public Date getInvoiceDueDate() {
 		return invoiceDueDate;
 	}
 
-	public void setInvoiceDueDate(String invoiceDueDate) {
+	public void setInvoiceDueDate(Date invoiceDueDate) {
 		this.invoiceDueDate = invoiceDueDate;
 	}
 

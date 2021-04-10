@@ -4,7 +4,10 @@ import com.example.csvinxml.processor.app.transformation.Person;
 import com.thoughtworks.xstream.XStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.zip.GZIPOutputStream;
 import junit.framework.Assert;
 import com.example.csvinxml.processor.app.transformation.Invoice;
@@ -45,19 +48,18 @@ public class CsvToXmlTransformerTest {
         Assert.assertEquals(person.getFirstName(), "john");
     }
     @Test
-    public void convertInvoice() throws IOException {
+    public void convertInvoice() throws IOException, ParseException {
         byte[] bytes = new ClassPathResource("files/img.txt").getInputStream().readAllBytes();
         String invoiceImg = compressByteArrayEncodeToString(bytes);
         List<String> csvRow = Arrays.asList("South African Gold Mines Corp", "scanned_invoice_1.png", invoiceImg,"2020-09-01",
                 "AA16789-1","22000.89", "USD","NEW","Goldie & Sons\nSouth African Gold Mines Corp");
         List<String> result = transformer.convertInvoice(Collections.singletonList(csvRow));
         Assert.assertEquals(result.size(), 1);
-
         Invoice invoice = (Invoice) xstream.fromXML(result.get(0));
         Assert.assertEquals(invoice.getBuyerName(), "South African Gold Mines Corp");
         Assert.assertEquals(invoice.getImageName(), "scanned_invoice_1.png");
         Assert.assertEquals(invoice.getInvoiceImage(), invoiceImg);
-        Assert.assertEquals(invoice.getInvoiceDueDate(), "2020-09-01");
+        Assert.assertEquals(invoice.getInvoiceDueDate(), new SimpleDateFormat("yyyy-MM-dd").parse("2020-09-01"));
         Assert.assertEquals(invoice.getInvoiceNumber(), "AA16789-1");
         Assert.assertEquals(invoice.getInvoiceAmount(), Double.parseDouble("22000.89"));
         Assert.assertEquals(invoice.getInvoiceCurrency(), "USD");
