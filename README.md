@@ -1,41 +1,33 @@
 ## Camel Processr from csv to xml
 
-**What is this?**
+**Introduction**
 
-This project is a bunch of reference points that I put together while working through Camel in Action. Hopefully they help you too.
+This project is a bunch of reference points that I put together while working through Camel in Action. 
 
-The project is a Spring-based Web App so that it mirrors something you might actually create and use in real life.
+##Main Unit tests
 
-## About the Examples
-Most of the examples can be tweaked to include a different destination simply by changing the destination value in the property file. For example, you could change FileMover to be a FileToQueueMover by changing the destination to a queue.
+The base running logic is in unit tests.
 
-**FileMover**
- - Simplest example of camel routing. Picks up a file and dumps it in another directory.
+**CSVSplitterToSeparateCsvFiles**
 
-**ContentBasedFileMover:**
- - Determines the type of file based on extension and routes accordingly
 
-**FileToQueueMover:**
- - Picks up the content of a file and dumps it on a queue.
 
-**LoggingProcessor:**
- - A utility class that you can hook in at just about any point and get information about what is going on.
+**CSVSplitterToXML**
 
-**MultipleDestinationDeliverer:**
- - Send the same file to multiple locations using a multicast.
+Iteration for the csv file and setting it into pojo;
+afterwards iterating the list of invoice pojo & saving into separated xml files by buyer
 
-**WireTapMover:**
- - Send the same file to multiple locations using a wire tap.
+**Bonus tests with Apache camel (not required, but it took me time to overthink the requirement)**
 
-**XstreamTransformingMover:**
- - Take a csv input file, convert each row into an object, then write each object to a separate xml file using xstream.
+**ConvertorRouteTest**
 
-**JaxbTransformingMover:**
- - Take a csv input file, convert each row into an object, then write each object to a separate xml file using JAXB.
+A classic camel route logic with Domain Specific Language, it converts the whole csv into xml file.
 
-## A Few Words of Caution
-Camel doesn't do much validation. If you screw up your destination or incorrectly write your Simple expression language, it's easy to get stuck in an infinite loop.
+**CsvToXmlTransformerTest**
 
-If you're having trouble, inject the LoggingProcessor into various stages of your route and use it to figure out what is going on.
+Testing first row of data custom CsvToXmlTransformer with xStream convert
+The invoice img is separated in file & compressed byte[]; all fields are asserted
 
-Good luck.
+**CsvToPersonTransformerTest**
+
+Conversion of the first row of csv data and converting into pojo

@@ -8,10 +8,8 @@ import com.thoughtworks.xstream.security.PrimitiveTypePermission;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.zip.GZIPOutputStream;
 import junit.framework.Assert;
 import org.junit.Before;
@@ -45,7 +43,7 @@ public class CsvToXmlTransformerTest {
         xstream.allowTypesByWildcard(new String[] {
                 "com.example.csvinxml.**"
         });
-//        https://stackoverflow.com/questions/44698296/security-framework-of-xstream-not-initialized-xstream-is-probably-vulnerable
+//    resolve vulnerable    https://stackoverflow.com/questions/44698296/security-framework-of-xstream-not-initialized-xstream-is-probably-vulnerable
         transformer.setXstream(xstream);
     }
 

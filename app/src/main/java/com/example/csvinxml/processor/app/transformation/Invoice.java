@@ -16,7 +16,7 @@ import org.apache.camel.dataformat.bindy.annotation.DataField;
 @XmlRootElement(name = "Invoice")
 @CsvRecord(separator = ",",skipFirstLine = true) //skipFirstLine
 @XStreamAlias("InvoiceRoot")
-public class Invoice {
+public class Invoice implements Comparable<Invoice> {
 
 
 	@XmlAttribute(name = "buyer", required = true)
@@ -131,7 +131,13 @@ public class Invoice {
 	public void setSupplier(String supplier) {
 		this.supplier = supplier;
 	}
-
+	@Override
+	public int compareTo(Invoice invoice) {
+		if (getBuyerName() == null || invoice.getBuyerName() == null) {
+			return 0;
+		}
+		return getBuyerName().compareTo(invoice.getBuyerName());
+	}
 	public Invoice() {
 	}
 // all args, getters, setters tostring
